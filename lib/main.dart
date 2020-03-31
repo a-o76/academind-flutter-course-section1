@@ -14,23 +14,40 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   var _questionIndex = 0;
+  var _finalScore = 0;
 
-  void _handleAnswer() {
+  void _handleAnswer(score) {
     setState(() {
       _questionIndex = _questionIndex + 1;
+      _finalScore = _finalScore += score;
     });
+  }
 
-    print(_questionIndex);
+  void _handleReset() {
+    setState(() {
+       _questionIndex = 0;
+      _finalScore = 0;
+    });
   }
 
   var _questions = [
     {
       'questionText': 'Whats your favorite movie?',
-      'answer': ['Matrix', 'Lord of the rings', 'Kill Bill', 'X-men'],
+      'answer': [
+        {'text': 'Matrix', 'score': 20},
+        {'text': 'Lord of the rings', 'score': 15},
+        {'text': 'Kill Bill', 'score': 10},
+        {'text': 'X-men', 'score': 1}
+      ],
     },
     {
       'questionText': 'Whats your favorite game?',
-      'answer': ['Pokemon', 'Zelda', 'Dark Souls', 'Castlevania'],
+      'answer': [
+        {'text': 'Pokemon', 'score': 3},
+        {'text': 'Zelda', 'score': 5},
+        {'text': 'Dark Souls', 'score': 15},
+        {'text': 'Castlevania', 'score': 30}
+      ],
     }
   ];
 
@@ -48,7 +65,7 @@ class _MyAppState extends State<MyApp> {
                 handleAnswer: _handleAnswer,
                 questions: _questions,
               )
-            : Result(),
+            : Result(_finalScore, _handleReset),
       ),
     );
   }
